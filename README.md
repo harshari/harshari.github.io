@@ -1,16 +1,11 @@
-## Portfolio site 2017
 
-### LINK: https://dalinhuang99.github.io/
-
-:sunglasses::sunglasses::sunglasses: <br>
-:sunglasses::flushed::sunglasses: <br>
-:sunglasses::sunglasses::sunglasses: <br>
+### LINK: https://harshari.github.io/
 
 ---
 
 **Note: if you would like to clone this mini portfolio page:**
 
-Remove the google analytics code at the head of `index.html` please 🙏(or setup one for yourself 😃)
+Yaar please remove the google analytics code at the head of `index.html` 
 
 ```
     <!-- Global Site Tag (gtag.js) - Google Analytics -->
@@ -25,12 +20,6 @@ Remove the google analytics code at the head of `index.html` please 🙏(or setu
 
 ---
 
-#### Nov 11, 2017
-* redesign/update page 1
-* style fixes, added particles-js, added btn to switch style (page 1)
-
-#### Oct 22, 2017
-* minor update
 
 #### Oct 19 - Oct 20, 2017
 * Page 3 update, Blockchain (SHA-256) style for working experience section
