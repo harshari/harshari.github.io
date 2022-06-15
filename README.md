@@ -3,7 +3,7 @@
 
 ---
 
-**Note: if you would like to copy this website: **
+**Note: if you would like to copy this website:**
 
 Yaar please remove the google analytics code at the head of `index.html` 
 
