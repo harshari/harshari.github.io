@@ -13,7 +13,6 @@
 <meta property="og:title" content="Die Per Wafer Calculator " />
 <meta property="og:description" content="Die Per Wafer Calculator Die Yield Calculator Max Die Per Wafer Die Yield Wafer Map SiC Devices 100mm 200mm Silicon wafer" />
 <meta property="og:url" content="https://caly-technologies.com/die-yield-calculator/" />
-<meta property="og:site_name" content="CALY Technologies" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:description" content="Die Per Wafer Calculator Die Yield Calculator Max Die Per Wafer Yield Wafer Map SiC Devices 100mm 200mm Silicon wafer" />
 <meta name="twitter:title" content="Die Per Wafer Calculator " />
@@ -762,7 +761,7 @@ function dieyielddata(form) {
             //harsh sharma
             //if (def>0){ yld = Math.pow(((1 - (Math.exp(-(DCRes.yda * def)))) / (DCRes.yda * def)), 2);} //-original from caly tech 
             //if (def>0){ yld = Math.pow(((Math.exp( 1 + ((DCRes.yda * def)/3)))), -3);} //- yield model from Interposer/chiplet/Kannan et. al paper. 
-            if (def>0){ yld = Math.pow((1 + ((DCRes.da * def)/DCRes.alpha)), -DCRes.alpha);} //- yield model from Interposer/chiplet/Kannan et. al paper. alpha = 5.
+            if (def>0){ yld = Math.pow((1 + ((DCRes.da * def)/DCRes.alpha)), -DCRes.alpha);} //- yield model from Interposer/chiplet/Kannan et. al paper. DCRes.alpha = 5.
             if (def<=0){yld=1;}
             // add the value of alpha in the equation:
             
@@ -850,7 +849,7 @@ function dieyielddata(form) {
         alert('You need Safari or Firefox 1.5+ to see this page.');
       }
     }    
-</script><link rel="icon" href="https://caly-technologies.com/wp-content/uploads/2021/05/cropped-LOGO-CALY-BLANC-test-32x32.png" sizes="32x32" />
+</script><link rel="icon" href="img/favicon.ico" sizes="32x32" />
 <meta name="msapplication-TileImage" content="https://caly-technologies.com/wp-content/uploads/2021/05/cropped-LOGO-CALY-BLANC-test-270x270.png" />
 		<style type="text/css" id="wp-custom-css">
 			@import url('https://fonts.googleapis.com/css?family=Oswald:300,400,500,700');
