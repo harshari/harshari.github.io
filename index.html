@@ -40,8 +40,8 @@
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#" data-val="default">Aesthetic Lines</a></li>
-                <li><a class="dropdown-item" href="#" data-val="">Particles</a></li>
-                <li><a class="dropdown-item" href="#" data-val="">Snowy Snow</a></li>
+                <li><a class="dropdown-item" href="#" data-val="space">Particles</a></li>
+                <li><a class="dropdown-item" href="#" data-val="snow">Snowy Snow</a></li>
             </ul>
         </div>
         <section class='intro'>
@@ -283,19 +283,19 @@ Amazon Linux version 2020.09 is available.
                 switch (Math.round(Math.random() * 2 + 1)) {
                     case 1:
                         styleDefault();
-                        display_text = 'Style Block'
+                        display_text = 'Lines'
                         break;
                     case 2:
                         styleSpace();
-                        display_text = 'Style Space'
+                        display_text = 'Particles'
                         break;
                     case 3:
                         styleSnow();
-                        display_text = 'Style Snow'
+                        display_text = 'Snow'
                         break;
                     default:
                         styleSpace();
-                        display_text = 'Style Block'
+                        display_text = 'Change style here'
                 }
                 $('#selstyle').text(display_text);
 
@@ -312,7 +312,7 @@ Amazon Linux version 2020.09 is available.
                             styleSnow();
                             break;
                         default:
-                            styleSpace();
+                            styleSnow();
                     }
                     $('#selstyle').text($(this).text());
                 });
