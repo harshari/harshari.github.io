@@ -1,0 +1,43 @@
+p, li {
+  font-size: 20px; }
+
+h1, h2 {
+  font-family: 'Limelight', cursive;
+  color: #000000; }
+
+h3, p, li, .btn {
+  font-family: 'Old Standard TT', serif; }
+
+body, .topButtons {
+  background-color: #ffffff; }
+
+ul {
+  list-style-position: inside; }
+
+li {
+  margin: 10px 0; }
+
+.imgFit {
+  max-width: 98%;
+  width: 900px; }
+
+.imgFit2 {
+  max-width: 98%;
+  width: 400px; }
+
+.imgLink {
+  transition: 0.2s; }
+
+.imgLink:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.01);
+  transform: scale(1.05); }
+
+a {
+  color: #000000; }
+
+a:hover {
+  color: #ff0000; }
+
+.btn-outline-dark {
+  border: 3px solid #000000; }
