@@ -1,1 +1,0 @@
-# Floret Paper : SFC-based NoI design for server scale applications
