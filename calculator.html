@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Goat Counter -->
+    <script data-goatcounter="https://harshari.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    <!-- Nikki Case Tool - Nutshell -->
+    <script src="https://cdn.jsdelivr.net/gh/ncase/nutshell/nutshell.js"></script>
+    <script>
+        Nutshell.setOptions({
+            startOnLoad: true,
+            lang: 'en',
+            dontEmbedHeadings: true,
+        });
+    </script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wafer Yield Calculator</title>
+    <!-- icon -->
+    <link rel="icon" href="img/icon.png" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous" />
+    <!-- font-awesome -->
+    <script src="https://use.fontawesome.com/c0f4f0e9de.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" />
+    <!-- additional css -->
+    <link href="css/index.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <!-- Limelight -->
+    <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet" />
+    <!-- Old Standard TT -->
+    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div id="logo"><img src="img/Harsh_logoV2.png" alt="Harsh_logo" class="imgFit" /></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1>Wafer Yield Calculator</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form id="yieldForm">
+                    <div class="mb-3">
+                        <label for="dieWidth" class="form-label">Die Width (mm)</label>
+                        <input type="number" class="form-control" id="dieWidth" name="dieWidth" value="1.2" step="0.01" min="0.0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dieHeight" class="form-label">Die Height (mm)</label>
+                        <input type="number" class="form-control" id="dieHeight" name="dieHeight" value="1.2" step="0.01" min="0.0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="waferDiameter" class="form-label">Wafer Diameter (mm)</label>
+                        <input type="number" class="form-control" id="waferDiameter" name="waferDiameter" value="300" step="1" min="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="defectDensity" class="form-label">Defect Density (#/sq.cm)</label>
+                        <input type="number" class="form-control" id="defectDensity" name="defectDensity" value="0.1" step="0.01" min="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edgeLoss" class="form-label">Edge Loss (mm)</label>
+                        <input type="number" class="form-control" id="edgeLoss" name="edgeLoss" value="5.0" step="0.1" min="0.0" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-lg btn-primary" onclick="calculateYield()">Calculate Yield</button>
+                    </div>
+                </form>
+                <div class="mt-4 text-center">
+                    <h2>Yield: <span id="yieldResult">0</span>%</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateYield() {
+            const form = document.getElementById('yieldForm');
+            const dieWidth = parseFloat(form.elements['dieWidth'].value);
+            const dieHeight = parseFloat(form.elements['dieHeight'].value);
+            const waferDiameter = parseInt(form.elements['waferDiameter'].value);
+            const defectDensity = parseFloat(form.elements['defectDensity'].value);
+            const edgeLoss = parseFloat(form.elements['edgeLoss'].value);
+
+            const dieArea = (dieWidth / 10) * (dieHeight / 10); 
+            const waferRadius = waferDiameter / 2;
+            const activeAreaRadius = waferRadius - edgeLoss;
+
+            const diePerWafer = Math.floor((Math.PI * Math.pow(activeAreaRadius, 2)) / dieArea);
+
+            // Gamma distribution for yield calculation
+            const k = 5;  // shape parameter for Gamma distribution
+            const theta = 1 / (defectDensity * dieArea);  // scale parameter for Gamma distribution
+            const yield = Math.pow((1 + ((dieArea * defectDensity) / k)), -k);
+
+            document.getElementById('yieldResult').innerText = (yield * 100).toFixed(2);
+        }
+    </script>
+</body>
+</html>
