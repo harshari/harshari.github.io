@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Goat Counter -->
+        <script data-goatcounter="https://harshari.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+        <!-- Nikki Case Tool - Nutshell -->
+        <script src="https://cdn.jsdelivr.net/gh/ncase/nutshell/nutshell.js"></script>
+        
+        <script>
+            Nutshell.setOptions({
+                startOnLoad: true, // Start Nutshell on load? (default: true)
+                lang: 'en', // Language (default: 'en', which is English)
+                dontEmbedHeadings: true, // If 'true', removes the "embed this as a nutshell" option on headings
+            });
+        </script>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PIM Chiplet Energy Scaling - Harsh Sharma</title>
+        <!-- icon -->
+        <link rel="icon" href="img/icon.png" />
+        <!-- Bootstrap CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+            crossorigin="anonymous"
+        />
+
+        <!-- font-awesome -->
+        <script src="https://use.fontawesome.com/c0f4f0e9de.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" />
+
+        <!-- additional css -->
+        <link href="css/index.css" rel="stylesheet" type="text/css" media="all" />
+
+        <!-- google fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <!-- Limelight -->
+        <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet" />
+        <!-- Old Standard TT -->
+        <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap" rel="stylesheet" />
+        
+        <!-- React and ReactDOM for the visualization - IMPORTANT: Use development version for better error messages -->
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <!-- Recharts for visualization -->
+        <script src="https://unpkg.com/recharts@2.6.2/umd/Recharts.min.js"></script>
+        <!-- Babel for JSX -->
+        <script src="https://unpkg.com/@babel/standalone@7.22.9/babel.min.js"></script>
+        
+        <style>
+            .visualization-container {
+                background-color: #f9f9f9;
+                border-radius: 10px;
+                padding: 20px;
+                margin: 20px 0;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            
+            .paper-section {
+                background-color: #fff;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            }
+            
+            .heading-section {
+                border-bottom: 2px solid #eaeaea;
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .return-home {
+                margin-top: 30px;
+                text-align: center;
+            }
+            
+            .code-section {
+                background-color: #f5f5f5;
+                padding: 15px;
+                border-radius: 5px;
+                font-family: monospace;
+                margin: 20px 0;
+                overflow-x: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <!-- title -->
+                <div class="col-12 text-center">
+                    <div id="logo"><img src="img/Harsh_logoV2.png" alt="Harsh_logo" class="imgFit" /></div>
+                </div>
+            </div>
+
+            <div class="row sticky-top topButtons">
+                <hr />
+                <!-- Home button -->
+                <div class="col-sm-6 col-xs-12 text-center">
+                    <div>
+                        <img src="img/Simba_logo1.png" width="60" alt="" />
+                        <a href="index.html">
+                            <button class="btn btn-lg btn-light btn-outline-dark"><i class="fa fa-home"></i> <strong>Home</strong></button><br />
+                        </a>
+                        <p>Return to main page</p>
+                    </div>
+                </div>
+                <!-- Resume button -->
+                <div class="col-sm-6 col-xs-12 text-center">
+                    <div>
+                        <!-- Google Scholar button -->
+                        <a href="https://scholar.google.com/citations?user=xvzyDusAAAAJ&hl=en" target="_blank">
+                            <button class="btn btn-lg btn-light btn-outline-dark"><i class="fas fa-code"></i> <strong>View my work</strong></button>
+                        </a>
+                        <img src="img/Puff_logo1.png" width="60" alt="" />
+                        <p>Get an idea of what I do as a Researcher</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="heading-section">
+                        <h1 class="text-center"><strong>PIM Chiplet Energy Scaling Visualization</strong></h1>
+                        <p class="text-center">
+                            Interactive visualization showing how energy consumption scales with crossbar dimensions for different types of PIM chiplets
+                        </p>
+                    </div>
+                    
+                    <div class="paper-section">
+                        <h2>About this Visualization</h2>
+                        <p>
+                            This visualization demonstrates how the energy consumption of different Processing-in-Memory (PIM) chiplet types changes 
+                            as the crossbar dimensions (rows and columns) are scaled down. In PIM architectures, the crossbar size directly affects 
+                            energy consumption through various components like row drivers, column drivers, ADCs, and other peripheral circuits.
+                        </p>
+                        <p>
+                            The visualization includes five different PIM chiplet types (Standard, Shared, Adder, Accumulator, and ADC_Less), each with 
+                            different energy distribution across various components. When scaling down the crossbar dimensions, the energy consumption 
+                            is affected based on which components are tied to row scaling (Row_Knobs) and which are tied to column scaling (Col_Knobs).
+                        </p>
+                    </div>
+                    
+                    <div class="paper-section">
+                        <h2>How to Use</h2>
+                        <p>
+                            Select a chiplet type from the dropdown menu to see how its energy consumption changes with different crossbar dimensions.
+                            The visualization includes:
+                        </p>
+                        <ul>
+                            <li><strong>Energy Distribution by Component:</strong> Shows the relative contribution of each component to the total energy consumption</li>
+                            <li><strong>Energy Scaling Line Chart:</strong> Visualizes how the total energy consumption changes as rows and columns are scaled down</li>
+                            <li><strong>Energy Consumption Heatmap:</strong> Shows the relative energy consumption for all possible row and column combinations</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="visualization-container">
+                        <div id="pim-visualization"></div>
+                    </div>
+                    
+                    <div class="paper-section">
+                        <h2>Understanding the Data</h2>
+                        <p>
+                            The energy consumption of each PIM chiplet is broken down into components that are categorized as either Row_Knobs or Col_Knobs:
+                        </p>
+                        <ul>
+                            <li><strong>Row_Knobs:</strong> Components whose energy consumption scales with the number of rows in the crossbar</li>
+                            <li><strong>Col_Knobs:</strong> Components whose energy consumption scales with the number of columns in the crossbar</li>
+                        </ul>
+                        <p>
+                            When the crossbar dimensions are scaled down (e.g., from 256×256 to 128×256 or 64×32), the energy consumption of the Row_Knobs 
+                            and Col_Knobs components is reduced proportionally, affecting the total energy consumption of the chiplet.
+                        </p>
+                    </div>
+                    
+                    <div class="paper-section">
+                        <h2>Key Insights</h2>
+                        <p>
+                            From the visualization, we can observe that:
+                        </p>
+                        <ul>
+                            <li>For chiplets with high Row_Knob percentages (like ADC_Less at 94.4%), reducing the number of rows has a much greater impact on energy reduction than reducing columns</li>
+                            <li>The "Accumulator" chiplet has relatively balanced Row_Knob (55%) and Col_Knob (51%), meaning scaling either dimension will provide significant energy benefits</li>
+                            <li>For the "Shared" chiplet, the Col_Knob is very small (1.3%), so reducing columns will barely affect energy consumption</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="return-home">
+                        <a href="index.html">
+                            <button class="btn btn-lg btn-light btn-outline-dark"><i class="fa fa-home"></i> <strong>Return to Home</strong></button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PIM Chiplet Energy Visualization Component -->
+        <script type="text/babel">
+            // Make sure Recharts is available globally
+            const { 
+                LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, 
+                ResponsiveContainer, BarChart, Bar, Cell
+            } = Recharts;
+
+            // React component for the PIM Chiplet Energy Visualization
+            function PIMChipletEnergyVisualization() {
+              const [selectedChiplet, setSelectedChiplet] = React.useState("Standard");
+              
+              // Define the chiplet types and their energy distributions
+              const chipletData = {
+                "Standard": {
+                  baseSize: "128×128",
+                  rowKnob: 87.5,
+                  colKnob: 12.5,
+                  components: [
+                    { name: "Row Components", value: 87.5, color: "#8884d8" },
+                    { name: "Column Components", value: 12.5, color: "#82ca9d" }
+                  ]
+                },
+                "Shared": {
+                  baseSize: "764×764",
+                  rowKnob: 68,
+                  colKnob: 1.3,
+                  components: [
+                    { name: "bitcell_capacitor", value: 42.12, color: "#8884d8" },
+                    { name: "row_drivers", value: 24.26, color: "#82ca9d" },
+                    { name: "input_zero_gating", value: 1.14, color: "#ffc658" },
+                    { name: "column_drivers", value: 0.71, color: "#ff8042" },
+                    { name: "adc", value: 24.43, color: "#0088fe" },
+                    { name: "shift_add", value: 6.76, color: "#00c49f" },
+                    { name: "out_datapath", value: 0.59, color: "#ffbb28" }
+                  ]
+                },
+                "Adder": {
+                  baseSize: "64×64",
+                  rowKnob: 81,
+                  colKnob: 0.4,
+                  components: [
+                    { name: "RowDriver", value: 80.83, color: "#8884d8" },
+                    { name: "Binary_weightingCap", value: 0.35, color: "#82ca9d" },
+                    { name: "ColDriver", value: 0.1, color: "#ffc658" },
+                    { name: "Adder", value: 0.98, color: "#ff8042" },
+                    { name: "ADC", value: 17.83, color: "#0088fe" }
+                  ]
+                },
+                "Accumulator": {
+                  baseSize: "128×128", 
+                  rowKnob: 55,
+                  colKnob: 51,
+                  components: [
+                    { name: "Crossbar", value: 8.25, color: "#8884d8" },
+                    { name: "RowDriver", value: 47.32, color: "#82ca9d" },
+                    { name: "ADC", value: 3.53, color: "#ffc658" },
+                    { name: "Shift/ADD", value: 1.18, color: "#ff8042" },
+                    { name: "WordlineCap", value: 1.95, color: "#0088fe" },
+                    { name: "Accum", value: 37.78, color: "#00c49f" }
+                  ]
+                },
+                "ADC_Less": {
+                  baseSize: "128×128", 
+                  rowKnob: 94.4,
+                  colKnob: 20,
+                  components: [
+                    { name: "crossbar", value: 16.56, color: "#8884d8" },
+                    { name: "cim_unit", value: 0.02, color: "#82ca9d" },
+                    { name: "register", value: 3.76, color: "#ffc658" },
+                    { name: "column_drivers", value: 2.84, color: "#ff8042" },
+                    { name: "digital_logic_input_ports", value: 18.19, color: "#0088fe" },
+                    { name: "row_drivers", value: 58.64, color: "#00c49f" }
+                  ]
+                }
+              };
+
+              // Generate scaling data for the selected chiplet
+              const generateScalingData = (chipletType) => {
+                const chiplet = chipletData[chipletType];
+                const scalingFactors = [1, 0.5, 0.25, 0.125]; // 100%, 50%, 25%, 12.5%
+                
+                const data = [];
+                
+                // For each scaling factor
+                scalingFactors.forEach(rowScale => {
+                  scalingFactors.forEach(colScale => {
+                    // Calculate energy based on knob percentages
+                    const rowEnergy = chiplet.rowKnob * rowScale;
+                    const colEnergy = chiplet.colKnob * colScale;
+                    const otherEnergy = 100 - chiplet.rowKnob - chiplet.colKnob;
+                    const totalEnergy = rowEnergy + colEnergy + otherEnergy;
+                    
+                    // Calculate the relative crossbar dimensions
+                    const baseSize = chiplet.baseSize.split("×").map(num => parseInt(num));
+                    const scaledRows = Math.round(baseSize[0] * rowScale);
+                    const scaledCols = Math.round(baseSize[1] * colScale);
+                    
+                    data.push({
+                      id: `${scaledRows}×${scaledCols}`,
+                      rows: scaledRows,
+                      cols: scaledCols,
+                      rowScale,
+                      colScale,
+                      rowEnergy,
+                      colEnergy,
+                      otherEnergy,
+                      totalEnergy,
+                      energyPercentage: (totalEnergy / 100) * 100 // Normalized to 100%
+                    });
+                  });
+                });
+                
+                return data;
+              };
+
+              const scalingData = generateScalingData(selectedChiplet);
+              
+              // Format the data for the heatmap-like visualization
+              const formatHeatmapData = () => {
+                const baseSize = chipletData[selectedChiplet].baseSize.split("×").map(num => parseInt(num));
+                const rows = [baseSize[0], baseSize[0]/2, baseSize[0]/4, baseSize[0]/8].map(r => Math.round(r));
+                
+                return rows.map(row => {
+                  const dataPoint = {};
+                  dataPoint.name = row;
+                  
+                  const colSizes = [baseSize[1], baseSize[1]/2, baseSize[1]/4, baseSize[1]/8].map(c => Math.round(c));
+                  
+                  colSizes.forEach(col => {
+                    const matchingData = scalingData.find(d => d.rows === row && d.cols === col);
+                    if (matchingData) {
+                      dataPoint[`${col}`] = Math.round(matchingData.energyPercentage);
+                    }
+                  });
+                  
+                  return dataPoint;
+                });
+              };
+              
+              const heatmapData = formatHeatmapData();
+              
+              // Format data for line chart visualization
+              const formatLineData = () => {
+                const baseSize = chipletData[selectedChiplet].baseSize.split("×").map(num => parseInt(num));
+                const result = [];
+                
+                // Generate row and column combinations with scaled dimensions
+                const rowScales = [1, 0.5, 0.25, 0.125];
+                const colScales = [1, 0.5, 0.25, 0.125];
+                
+                rowScales.forEach(rowScale => {
+                  const scaledRow = Math.round(baseSize[0] * rowScale);
+                  
+                  colScales.forEach(colScale => {
+                    const scaledCol = Math.round(baseSize[1] * colScale);
+                    const matchingData = scalingData.find(d => 
+                      d.rows === scaledRow && d.cols === scaledCol
+                    );
+                    
+                    if (matchingData) {
+                      result.push({
+                        name: `${scaledRow}×${scaledCol}`,
+                        energy: Math.round(matchingData.energyPercentage),
+                        rowSize: scaledRow,
+                        colSize: scaledCol
+                      });
+                    }
+                  });
+                });
+                
+                // Sort by row size (primary) and col size (secondary)
+                result.sort((a, b) => {
+                  if (a.rowSize !== b.rowSize) return b.rowSize - a.rowSize;
+                  return b.colSize - a.colSize;
+                });
+                
+                return result;
+              };
+              
+              const lineData = formatLineData();
+              
+              // Define inline styles for consistent display
+              const containerStyle = {
+                display: "flex", 
+                flexDirection: "column", 
+                padding: "1rem", 
+                gap: "1.5rem", 
+                width: "100%"
+              };
+              
+              const chartContainerStyle = {
+                display: "grid", 
+                gridTemplateColumns: "1fr", 
+                gap: "1.5rem"
+              };
+              
+              const boxStyle = {
+                backgroundColor: "white", 
+                padding: "1rem", 
+                borderRadius: "0.5rem", 
+                boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
+              };
+              
+              return (
+                <div style={containerStyle}>
+                  <h2 style={{fontSize: "1.5rem", fontWeight: "bold", textAlign: "center", marginBottom: "1rem"}}>
+                    PIM Chiplet Energy Scaling Visualization
+                  </h2>
+                  
+                  <div style={{display: "flex", justifyContent: "center", marginBottom: "1rem"}}>
+                    <div style={{display: "flex", gap: "0.5rem", alignItems: "center"}}>
+                      <label style={{fontWeight: "500"}}>Select Chiplet Type:</label>
+                      <select 
+                        value={selectedChiplet}
+                        onChange={(e) => setSelectedChiplet(e.target.value)}
+                        style={{border: "1px solid #ccc", borderRadius: "0.25rem", padding: "0.25rem 0.5rem"}}
+                      >
+                        {Object.keys(chipletData).map(type => (
+                          <option key={type} value={type}>{type} ({chipletData[type].baseSize})</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div style={chartContainerStyle}>
+                    {/* Energy Breakdown By Component */}
+                    <div style={boxStyle}>
+                      <h3 style={{fontSize: "1.125rem", fontWeight: "600", marginBottom: "0.5rem"}}>
+                        Energy Distribution by Component
+                      </h3>
+                      <div style={{height: "300px"}}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart
+                            data={chipletData[selectedChiplet].components}
+                            layout="vertical"
+                            margin={{ top: 5, right: 30, left: 80, bottom: 5 }}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" unit="%" domain={[0, 100]} />
+                            <YAxis type="category" dataKey="name" width={80} />
+                            <Tooltip formatter={(value) => [`${value.toFixed(2)}%`, 'Energy']} />
+                            <Legend />
+                            <Bar dataKey="value" name="Energy %" fill="#8884d8">
+                              {chipletData[selectedChiplet].components.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} />
+                              ))}
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                      <div style={{marginTop: "1rem"}}>
+                        <p><strong>Row Knob Components:</strong> {chipletData[selectedChiplet].rowKnob.toFixed(1)}%</p>
+                        <p><strong>Column Knob Components:</strong> {chipletData[selectedChiplet].colKnob.toFixed(1)}%</p>
+                      </div>
+                    </div>
+                  
+                    {/* Energy Scaling Visualization */}
+                    <div style={boxStyle}>
+                      <h3 style={{fontSize: "1.125rem", fontWeight: "600", marginBottom: "0.5rem"}}>
+                        Energy Scaling with Crossbar Dimensions
+                      </h3>
+                      <div style={{height: "300px"}}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart
+                            data={lineData}
+                            margin={{ top: 5, right: 30, left: 20, bottom: 45 }}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis 
+                              dataKey="name" 
+                              angle={-45} 
+                              textAnchor="end"
+                              height={60}
+                              label={{ value: "Crossbar Dimensions (Rows×Columns)", position: "insideBottom", offset: -35 }}
+                            />
+                            <YAxis 
+                              label={{ value: "Relative Energy (%)", angle: -90, position: "insideLeft" }}
+                              domain={[0, 100]} 
+                            />
+                            <Tooltip formatter={(value) => [`${value}%`, 'Energy']} />
+                            <Legend />
+                            <Line 
+                              type="monotone" 
+                              dataKey="energy" 
+                              name="Relative Energy" 
+                              stroke="#ff7300" 
+                              activeDot={{ r: 8 }} 
+                              strokeWidth={2}
+                            />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+                    
+                    {/* Energy Heatmap */}
+                    <div style={{...boxStyle, gridColumn: "1 / -1"}}>
+                      <h3 style={{fontSize: "1.125rem", fontWeight: "600", marginBottom: "0.5rem"}}>
+                        Energy Consumption Heatmap
+                      </h3>
+                      <p style={{marginBottom: "1rem", fontSize: "0.875rem", color: "#666"}}>
+                        This shows the relative energy consumption (%) for different crossbar dimensions
+                      </p>
+                      <div style={{overflowX: "auto"}}>
+                        <table style={{minWidth: "100%", borderCollapse: "collapse"}}>
+                          <thead>
+                            <tr>
+                              <th style={{border: "1px solid #ddd", padding: "0.5rem", backgroundColor: "#f5f5f5"}}>
+                                Rows ↓ / Columns →
+                              </th>
+                              {heatmapData[0] && Object.keys(heatmapData[0])
+                                .filter(key => key !== 'name')
+                                .map(col => (
+                                  <th key={col} style={{border: "1px solid #ddd", padding: "0.5rem", backgroundColor: "#f5f5f5"}}>
+                                    {col}
+                                  </th>
+                                ))
+                              }
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {heatmapData.map((row, idx) => (
+                              <tr key={idx}>
+                                <td style={{border: "1px solid #ddd", padding: "0.5rem", fontWeight: "500", backgroundColor: "#fafafa"}}>
+                                  {row.name}
+                                </td>
+                                {Object.keys(row)
+                                  .filter(key => key !== 'name')
+                                  .map(col => {
+                                    // Calculate color intensity based on energy value
+                                    const energyValue = row[col];
+                                    const hue = 120 - (energyValue * 1.2); // Red to green gradient
+                                    const backgroundColor = `hsl(${hue}, 80%, 80%)`;
+                                    
+                                    return (
+                                      <td 
+                                        key={col} 
+                                        style={{
+                                          border: "1px solid #ddd", 
+                                          padding: "0.5rem", 
+                                          textAlign: "center",
+                                          backgroundColor
+                                        }}
+                                      >
+                                        {energyValue}%
+                                      </td>
+                                    );
+                                  })
+                                }
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div style={{backgroundColor: "#f9f9f9", padding: "1rem", borderRadius: "0.5rem", marginTop: "0.5rem"}}>
+                    <h3 style={{fontSize: "1.125rem", fontWeight: "500", marginBottom: "0.5rem"}}>
+                      Scaling Analysis for {selectedChiplet}
+                    </h3>
+                    <p>
+                      For the {selectedChiplet} chiplet with base size {chipletData[selectedChiplet].baseSize}, 
+                      reducing row dimensions affects {chipletData[selectedChiplet].rowKnob.toFixed(1)}% of the energy consumption,
+                      while reducing column dimensions affects {chipletData[selectedChiplet].colKnob.toFixed(1)}% of the energy.
+                    </p>
+                    <p style={{marginTop: "0.5rem"}}>
+                      When scaling to half the rows ({Math.round(parseInt(chipletData[selectedChiplet].baseSize.split("×")[0])/2)}), 
+                      the energy consumption reduces by approximately {(chipletData[selectedChiplet].rowKnob * 0.5).toFixed(1)}%.
+                      When scaling to half the columns ({Math.round(parseInt(chipletData[selectedChiplet].baseSize.split("×")[1])/2)}), 
+                      the energy consumption reduces by approximately {(chipletData[selectedChiplet].colKnob * 0.5).toFixed(1)}%.
+                    </p>
+                  </div>
+                </div>
+              );
+            }
+
+            // Wait for DOM to be fully loaded before rendering React
+            document.addEventListener("DOMContentLoaded", function() {
+              try {
+                // Log to confirm script is running
+                console.log("Starting React rendering...");
+                
+                // Get the container element
+                const container = document.getElementById('pim-visualization');
+                if (!container) {
+                  console.error("Container element #pim-visualization not found!");
+                  return;
+                }
+                
+                // Create a root and render the component
+                const root = ReactDOM.createRoot(container);
+                root.render(<PIMChipletEnergyVisualization />);
+                
+                console.log("React component rendered successfully");
+              } catch (error) {
+                console.error("Failed to render React component:", error);
+              }
+            });
+        </script>
+    </body>
+</html>
